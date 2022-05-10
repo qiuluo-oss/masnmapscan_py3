@@ -1,8 +1,8 @@
 # masnmapscan_py3
 
-本项目在[masnmapscan-V1.0](https://github.com/hellogoldsnakeman/masnmapscan-V1.0)的基础上进行修复调整，解决masscan与nmap无法联动的问题，是基于python3开发的。已经集成masscan，无需做任何操作，开箱即用。
+本项目在[masnmapscan-V1.0](https://github.com/hellogoldsnakeman/masnmapscan-V1.0)的基础上进行修复调整，解决masscan与nmap无法联动的问题，是基于python3开发的。已经集成masscan，无需做任何操作，开箱即用。可以单个IP扫描，也可以批量扫描。
 
-### 使用方法
+### 安装
 
 1、cd masnmapscan_py3
 
@@ -14,9 +14,19 @@ cd masscan/
 
 make
 
-4、将ip地址每行一个保存到ip.txt文本中
+###使用
 
-5、python3 masnmapcan_py3.py开始扫描端口，扫描的最终结果会保存到scan_url_port.txt文件中
+optional arguments:
+  -h, --help            show this help message and exit
+  -i IP, --ip IP        The scan ip
+  -f FILE, --file FILE  The scan ip list file
+  -o OUTPUT, --output OUTPUT
+                        Output file name
+  -t THREAD, --thread THREAD
+                        Number of Threads
+
+Example: python3 masnmapcan_py3.py -i 192.168.1.1
+
 
 ### module 'nmap' has no attribute 'PortScanner'问题解决方法
 
