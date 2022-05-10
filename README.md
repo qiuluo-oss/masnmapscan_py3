@@ -14,8 +14,6 @@ cd masscan/
 
 make
 
-cd ../../
-
 4、将ip地址每行一个保存到ip.txt文本中
 
 5、python3 masnmapcan_py3.py开始扫描端口，扫描的最终结果会保存到scan_url_port.txt文件中
