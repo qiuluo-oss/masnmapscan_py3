@@ -14,7 +14,7 @@ cd masscan/
 
 make
 
-cd bin/ && make install
+cd ../../
 
 4、将ip地址每行一个保存到ip.txt文本中
 
