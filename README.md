@@ -20,6 +20,14 @@ cd ../../
 
 5、python3 masnmapcan_py3.py开始扫描端口，扫描的最终结果会保存到scan_url_port.txt文件中
 
+### module 'nmap' has no attribute 'PortScanner'问题解决方法
+
+1、pip3 uninstall nmap
+
+2、pip3 uninstall python-nmap
+
+3、pip3 install python-nmap
+
 ### 引用原作者的话
 
 整合了masscan和nmap两款扫描器，masscan扫描端口，nmap扫描端口对应服务，二者结合起来实现了又快又好地扫描。并且加入了针对目标资产有防火墙的应对措施
