@@ -1,3 +1,5 @@
+import argparse
+import sys
 import nmap
 import datetime
 import threading
@@ -7,6 +9,7 @@ import json
 import os
 from queue import Queue
 
+import urllib3
 
 final_domains = []
 ports = []
@@ -94,25 +97,47 @@ def Scan(scan_ip):
         print(e)
 
 
-def main():
+def parse_args():
+    parser = argparse.ArgumentParser(epilog='\tExample: \r\npython3 ' + sys.argv[0] + " -i 192.168.1.1")
+    parser.add_argument("-i", "--ip", help="The scan ip")
+    parser.add_argument("-f", "--file", help="The scan ip list file")
+    parser.add_argument("-o", "--output", help="Output file name")
+    parser.add_argument("-t", "--thread", help="Number of Threads", default=100)
+    return parser.parse_args()
+
+
+def main(ip_list_file):
     """
     启用多线程扫描
     """
     queue = Queue()
+
     try:
-        f = open(r'ip.txt', 'rb')
-        for line in f.readlines():
-            final_ip = line.decode().strip('\n')
+        # 单个ip扫描
+        if args.ip:
+            final_ip = args.ip
             queue.put(final_ip)
-        threads = []
-        thread_count = 100
-        for i in range(thread_count):
-            threads.append(PortScan(queue))
-        for t in threads:
-            t.start()
-        for t in threads:
-            t.join()
-        f.close()
+            threads = []
+            for i in range(int(args.thread)):
+                threads.append(PortScan(queue))
+            for t in threads:
+                t.start()
+            for t in threads:
+                t.join()
+        else:
+            # 批量ip扫描
+            f = open(ip_list_file, 'rb')
+            for line in f.readlines():
+                final_ip = line.decode().strip('\n')
+                queue.put(final_ip)
+            threads = []
+            for i in range(int(args.thread)):
+                threads.append(PortScan(queue))
+            for t in threads:
+                t.start()
+            for t in threads:
+                t.join()
+            f.close()
     except Exception as e:
         print(e)
         pass
@@ -120,14 +145,25 @@ def main():
 
 if __name__ == '__main__':
     start_time = datetime.datetime.now()
-    main()
+    urllib3.disable_warnings()
+    args = parse_args()
+    # 判断是否指定ip列表文件
+    if args.file == None:
+        main("ip.txt")
+    else:
+        main(args.file)
     tmp_domians = []
-    print(final_domains)
     for tmp_domain in final_domains:
         if tmp_domain not in tmp_domians:
             tmp_domians.append(tmp_domain)
-    for url in tmp_domians:
-        with open(r'scan_url_port.txt', 'ab+') as ff:
-            ff.write(url + '\n'.encode())
+    # 判断是否指定文件输出
+    if args.output is True:
+        for url in tmp_domians:
+            with open(str(args.output), 'ab+') as ff:
+                ff.write(url + '\n'.encode())
+    else:
+        for url in tmp_domians:
+            with open(r'scan_url_port.txt', 'ab+') as ff:
+                ff.write(url + '\n'.encode())
     spend_time = (datetime.datetime.now() - start_time).seconds
     print('程序共运行了： ' + str(spend_time) + '秒')
