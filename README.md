@@ -24,9 +24,9 @@ optional arguments:
 
 -f --file FILE  The scan ip list file
 
--o --output OUTPUT  Output file name
+-o --output OUTPUT  Output file name  默认输出到scan_url_port.txt
 
--t --thread THREAD   Number of Threads
+-t --thread THREAD   Number of Threads  默认100
 
 Example: python3 masnmapcan_py3.py -i 192.168.1.1
 
