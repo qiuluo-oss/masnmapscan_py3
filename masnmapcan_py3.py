@@ -157,9 +157,10 @@ if __name__ == '__main__':
         if tmp_domain not in tmp_domians:
             tmp_domians.append(tmp_domain)
     # 判断是否指定文件输出
-    if args.output is True:
+    if args.output:
+        os.mknod(args.output)  #创建文件
         for url in tmp_domians:
-            with open(str(args.output), 'ab+') as ff:
+            with open(args.output, 'ab+') as ff:
                 ff.write(url + '\n'.encode())
     else:
         for url in tmp_domians:
