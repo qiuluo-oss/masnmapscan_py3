@@ -30,6 +30,9 @@ optional arguments:
 
 Example: python3 masnmapcan_py3.py -i 192.168.1.1
 
+### 使用截图
+
+![image](https://user-images.githubusercontent.com/72497146/201292021-a23971a1-8d37-4522-8f64-8e4933e29cdd.png)
 
 ### module 'nmap' has no attribute 'PortScanner'问题解决方法
 
